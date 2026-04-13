@@ -136,6 +136,19 @@
     .color-swatch:hover { transform: scale(1.1); }
     .color-swatch.selected { border-color: var(--text-primary); }
     .form-actions { display: flex; gap: var(--space-sm); justify-content: flex-end; margin-top: var(--space-lg); padding-top: var(--space-lg); border-top: 1px solid var(--border-subtle); }
+    @media (max-width: 480px) {
+      .form-actions {
+      flex-direction: column-reverse;
+      }
+      .form-actions .btn {
+      width: 100%;
+      justify-content: center;
+      }
+      #deleteTaskBtn {
+      margin-right: 0 !important;
+      margin-top: var(--space-sm);
+      }
+    }
 
     .loading { display: flex; align-items: center; justify-content: center; padding: var(--space-xl); color: var(--text-muted); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; }
     .spinner { width: 16px; height: 16px; border: 2px solid var(--border-default); border-top-color: var(--accent-dim); border-radius: 50%; animation: spin 600ms linear infinite; margin-right: var(--space-sm); }
