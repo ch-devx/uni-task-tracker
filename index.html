@@ -333,7 +333,8 @@ async function loadView(v) {
 // ── Date helpers ─────────────────────────────────────────────
 function formatDeadline(d) {
   const today    = new Date(); today.setHours(0,0,0,0);
-  const deadline = new Date(d + 'T00:00:00');
+  const deadline = new Date(d);
+  deadline.setHours(0,0,0,0);
   const diff     = Math.round((deadline - today) / 86400000);
   if (diff < 0)   return `Venció hace ${Math.abs(diff)} día${Math.abs(diff)!==1?'s':''}`;
   if (diff === 0) return 'Vence hoy';
@@ -343,11 +344,11 @@ function formatDeadline(d) {
 function urgencyClass(d, status) {
   if (status === 'done') return 'done';
   const today    = new Date(); today.setHours(0,0,0,0);
-  const deadline = new Date(d + 'T00:00:00');
+  const deadline = new Date(d);
+  deadline.setHours(0,0,0,0);
   const diff     = Math.round((deadline - today) / 86400000);
   return diff <= 0 ? 'urgent' : diff <= 3 ? 'soon' : 'ok';
 }
-function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 // ── Tasks ────────────────────────────────────────────────────
 async function loadTasks() {
