@@ -349,6 +349,7 @@ function urgencyClass(d, status) {
   const diff     = Math.round((deadline - today) / 86400000);
   return diff <= 0 ? 'urgent' : diff <= 3 ? 'soon' : 'ok';
 }
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 // ── Tasks ────────────────────────────────────────────────────
 async function loadTasks() {
