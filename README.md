@@ -1,41 +1,39 @@
 # tareas-uni
 
-App web personal para gestionar tareas universitarias, ordenadas por fecha de entrega.
+Personal web app for managing university tasks, sorted by due date.
 
 **Live:** https://ch-devx.github.io/tareas-uni/
 
 ## Stack
 
-- HTML + CSS + JavaScript vanilla — sin frameworks
+- HTML + CSS + JavaScript vanilla — no frameworks
 - API: Cloudflare Worker ([tareas-uni-api](https://github.com/ch-devx/tareas-uni-api))
-- Base de datos: Neon PostgreSQL
+- Database: Neon PostgreSQL
 
-## Funcionalidades
+## Features
 
-- Crear, editar y eliminar tareas con título, descripción, materia y deadline
-- Ordenamiento automático por fecha de entrega
-- Indicador visual de urgencia por colores (vencida, próxima, ok)
-- Gestión de materias con color personalizado
-- Vista de tareas completadas
-- Diseño responsivo — optimizado para móvil
+- Create, edit, and delete tasks with title, description, subject, and deadline
+- Automatic sorting by due date
+- Visual urgency indicator by color (overdue, upcoming, ok)
+- Subject management with custom colors
+- Completed tasks view
+- Responsive design — optimized for mobile
 
-## Estructura
-
-```
+## Structure
 tareas-uni/
-└── index.html    # App completa en un solo archivo
-```
 
-## Configuración
+└── index.html    # Full app in a single file
 
-La URL del Worker está definida en la constante `API` dentro del `<script>` en `index.html`:
+## Configuration
+
+The Worker URL is defined in the `API` constant inside the `<script>` tag in `index.html`:
 
 ```javascript
 const API = 'https://uni-tasks-worker.tareas-uni.workers.dev';
 ```
 
-Si el Worker cambia de URL, actualiza esa línea y haz push.
+If the Worker URL changes, update that line and push.
 
 ## Deploy
 
-GitHub Pages sirve el `index.html` directamente desde la rama `main`. Cualquier push a `main` se refleja automáticamente en la URL de producción.
+GitHub Pages serves `index.html` directly from the `main` branch. Any push to `main` is automatically reflected on the production URL.
