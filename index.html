@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -352,7 +352,7 @@ function formatDeadline(d) {
   if (diff < 0)   return `Venció hace ${Math.abs(diff)} día${Math.abs(diff)!==1?'s':''}`;
   if (diff === 0) return 'Vence hoy';
   if (diff === 1) return 'Mañana';
-  return deadline.toLocaleDateString('es-VE', { day:'2-digit', month:'short' });
+  return deadline.toLocaleDateString('en-US', { day:'2-digit', month:'short' });
 }
 
 function urgencyClass(d, status) {
@@ -566,6 +566,8 @@ document.getElementById('subjectForm').onsubmit = async e => {
     closeModal('subjectModal'); loadSubjects();
   } catch(err) { showToast(err.message); }
 };
+
+document.getElementById('demoBanner').style.display = 'block';
 
 // ── Helpers ──────────────────────────────────────────────────
 function loading() { return '<div class="loading"><div class="spinner"></div>Cargando...</div>'; }
