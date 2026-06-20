@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tareas Uni</title>
+  <title>Uni Task Tracker</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -25,6 +25,9 @@
       --dot-soon:       #d4881a;
       --dot-ok:         #2e7d52;
       --dot-done:       #3a3a44;
+      --banner-bg:      #2a230f;
+      --banner-border:  #4a3a14;
+      --banner-text:    #d4b15a;
       --space-xs: 4px; --space-sm: 8px; --space-md: 16px;
       --space-lg: 24px; --space-xl: 40px;
       --radius-sm: 6px; --radius-md: 10px; --radius-lg: 16px;
@@ -38,6 +41,10 @@
     button { font-family: var(--font); cursor: pointer; border: none; background: none; }
     ul { list-style: none; }
     input, textarea, select { font-family: var(--font); font-size: 0.875rem; }
+
+    .demo-banner { display: none; align-items: center; gap: var(--space-sm); padding: 10px var(--space-lg); background: var(--banner-bg); border-bottom: 1px solid var(--banner-border); color: var(--banner-text); font-size: 0.78rem; font-weight: 500; text-align: center; justify-content: center; line-height: 1.4; }
+    .demo-banner strong { font-weight: 700; }
+    .demo-banner-icon { flex-shrink: 0; font-size: 0.9rem; }
 
     .menu-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(2px); z-index: 100; opacity: 0; transition: opacity var(--transition); }
     .menu-overlay.active { display: block; opacity: 1; }
@@ -168,76 +175,81 @@
 </head>
 <body>
 
+<div class="demo-banner" id="demoBanner">
+  <span class="demo-banner-icon">🔒</span>
+  <span><strong>Read-only demo</strong> — this is a live portfolio demo connected to a real database. Creating, editing, and deleting are disabled.</span>
+</div>
+
 <div class="menu-overlay" id="menuOverlay"></div>
 
 <nav class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <span class="sidebar-logo" id="appName">TU</span>
+    <span class="sidebar-logo" id="appName">UT</span>
     <button class="sidebar-close" id="sidebarClose">✕</button>
   </div>
   <ul class="sidebar-nav">
-    <li><div class="nav-link active" data-view="tasks"><span class="nav-icon">◈</span><span>Tareas</span></div></li>
-    <li><div class="nav-link" data-view="subjects"><span class="nav-icon">◇</span><span>Materias</span></div></li>
-    <li><div class="nav-link" data-view="done"><span class="nav-icon">◉</span><span>Completadas</span></div></li>
+    <li><div class="nav-link active" data-view="tasks"><span class="nav-icon">◈</span><span>Tasks</span></div></li>
+    <li><div class="nav-link" data-view="subjects"><span class="nav-icon">◇</span><span>Subjects</span></div></li>
+    <li><div class="nav-link" data-view="done"><span class="nav-icon">◉</span><span>Completed</span></div></li>
   </ul>
-  <div class="sidebar-footer">UNEFA · 2026</div>
+  <div class="sidebar-footer">Portfolio Demo · 2026</div>
 </nav>
 
 <header class="topbar">
   <button class="hamburger" id="hamburgerBtn">
     <span></span><span></span><span></span>
   </button>
-  <h1 class="topbar-title" id="topbarTitle">Tareas</h1>
+  <h1 class="topbar-title" id="topbarTitle">Tasks</h1>
   <div class="topbar-actions">
-    <button class="btn btn-ghost btn-sm" id="topbarAddBtn">+ Nueva</button>
+    <button class="btn btn-ghost btn-sm" id="topbarAddBtn">+ New</button>
   </div>
 </header>
 
 <main class="main-content">
   <div class="view active" id="view-tasks">
     <div class="section-header">
-      <span class="section-label">Pendientes</span>
+      <span class="section-label">Pending</span>
       <span class="section-count" id="tasks-count">—</span>
     </div>
-    <div id="tasks-list"><div class="loading"><div class="spinner"></div>Cargando...</div></div>
+    <div id="tasks-list"><div class="loading"><div class="spinner"></div>Loading...</div></div>
   </div>
   <div class="view" id="view-subjects">
     <div class="section-header">
-      <span class="section-label">Tus materias</span>
+      <span class="section-label">Your subjects</span>
       <span class="section-count" id="subjects-count">—</span>
     </div>
-    <div id="subjects-list"><div class="loading"><div class="spinner"></div>Cargando...</div></div>
+    <div id="subjects-list"><div class="loading"><div class="spinner"></div>Loading...</div></div>
   </div>
   <div class="view" id="view-done">
     <div class="section-header">
-      <span class="section-label">Completadas</span>
+      <span class="section-label">Completed</span>
       <span class="section-count" id="done-count">—</span>
     </div>
-    <div id="done-list"><div class="loading"><div class="spinner"></div>Cargando...</div></div>
+    <div id="done-list"><div class="loading"><div class="spinner"></div>Loading...</div></div>
   </div>
 </main>
 
 <button class="fab" id="fabBtn">+</button>
 
-<!-- Modal: Tarea -->
+<!-- Modal: Task -->
 <div class="modal-overlay" id="taskModal">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title" id="taskModalTitle">Nueva tarea</div>
+    <div class="modal-title" id="taskModalTitle">New task</div>
     <form id="taskForm">
       <input type="hidden" id="editTaskId">
       <div class="form-group">
-        <label class="form-label">Título</label>
-        <input class="form-input" type="text" id="taskTitle" placeholder="Ej. Parcial de Bases de Datos" required>
+        <label class="form-label">Title</label>
+        <input class="form-input" type="text" id="taskTitle" placeholder="E.g. Databases midterm" required>
       </div>
       <div class="form-group">
-        <label class="form-label">Descripción <span style="font-weight:400;text-transform:none;letter-spacing:0">(opcional)</span></label>
-        <textarea class="form-textarea" id="taskDesc" placeholder="Temas, instrucciones, notas..."></textarea>
+        <label class="form-label">Description <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+        <textarea class="form-textarea" id="taskDesc" placeholder="Topics, instructions, notes..."></textarea>
       </div>
       <div class="form-group">
-        <label class="form-label">Materia</label>
+        <label class="form-label">Subject</label>
         <select class="form-select" id="taskSubject">
-          <option value="">Sin materia</option>
+          <option value="">No subject</option>
         </select>
       </div>
       <div class="form-group">
@@ -245,24 +257,24 @@
         <input class="form-input" type="date" id="taskDeadline" required>
       </div>
       <div class="form-actions">
-        <button type="button" class="btn btn-danger" id="deleteTaskBtn" style="display:none;margin-right:auto">Eliminar</button>
-        <button type="button" class="btn btn-ghost" id="cancelTaskBtn">Cancelar</button>
-        <button type="submit" class="btn btn-primary" id="taskSubmitBtn">Crear tarea</button>
+        <button type="button" class="btn btn-danger" id="deleteTaskBtn" style="display:none;margin-right:auto">Delete</button>
+        <button type="button" class="btn btn-ghost" id="cancelTaskBtn">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="taskSubmitBtn">Create task</button>
       </div>
     </form>
   </div>
 </div>
 
-<!-- Modal: Materia -->
+<!-- Modal: Subject -->
 <div class="modal-overlay" id="subjectModal">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title" id="subjectModalTitle">Nueva materia</div>
+    <div class="modal-title" id="subjectModalTitle">New subject</div>
     <form id="subjectForm">
       <input type="hidden" id="editSubjectId">
       <div class="form-group">
-        <label class="form-label">Nombre</label>
-        <input class="form-input" type="text" id="subjectName" placeholder="Ej. Bases de Datos" required>
+        <label class="form-label">Name</label>
+        <input class="form-input" type="text" id="subjectName" placeholder="E.g. Databases" required>
       </div>
       <div class="form-group">
         <label class="form-label">Color</label>
@@ -270,8 +282,8 @@
         <div class="color-picker-row" id="colorSwatches"></div>
       </div>
       <div class="form-actions">
-        <button type="button" class="btn btn-ghost" id="cancelSubjectBtn">Cancelar</button>
-        <button type="submit" class="btn btn-primary" id="subjectSubmitBtn">Crear materia</button>
+        <button type="button" class="btn btn-ghost" id="cancelSubjectBtn">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="subjectSubmitBtn">Create subject</button>
       </div>
     </form>
   </div>
@@ -316,7 +328,7 @@ menuOverlay.onclick = closeSidebar;
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebar(); });
 
 // ── Navigation ───────────────────────────────────────────────
-const viewTitles = { tasks:'Tareas', subjects:'Materias', done:'Completadas' };
+const viewTitles = { tasks:'Tasks', subjects:'Subjects', done:'Completed' };
 
 document.querySelectorAll('.nav-link[data-view]').forEach(link => {
   link.onclick = () => { switchView(link.dataset.view); closeSidebar(); };
@@ -349,9 +361,9 @@ function formatDeadline(d) {
   const parts    = String(d).split('T')[0].split('-');
   const deadline = new Date(parts[0], parts[1]-1, parts[2]);
   const diff     = Math.round((deadline - today) / 86400000);
-  if (diff < 0)   return `Venció hace ${Math.abs(diff)} día${Math.abs(diff)!==1?'s':''}`;
-  if (diff === 0) return 'Vence hoy';
-  if (diff === 1) return 'Mañana';
+  if (diff < 0)   return `${Math.abs(diff)} day${Math.abs(diff)!==1?'s':''} overdue`;
+  if (diff === 0) return 'Due today';
+  if (diff === 1) return 'Tomorrow';
   return deadline.toLocaleDateString('en-US', { day:'2-digit', month:'short' });
 }
 
@@ -372,12 +384,12 @@ async function loadTasks() {
   try {
     const tasks = await apiFetch('/tasks');
     document.getElementById('tasks-count').textContent = tasks.length;
-    if (!tasks.length) { el.innerHTML = emptyState('◈','Sin tareas pendientes','Presiona "+ Nueva" para agregar'); return; }
+    if (!tasks.length) { el.innerHTML = emptyState('◈','No pending tasks','Press "+ New" to add one'); return; }
     el.innerHTML = '';
     const list = document.createElement('div'); list.className = 'task-list';
     tasks.forEach(t => list.appendChild(buildTaskCard(t)));
     el.appendChild(list);
-  } catch(e) { el.innerHTML = emptyState('⚠','Error al cargar', e.message); }
+  } catch(e) { el.innerHTML = emptyState('⚠','Failed to load', e.message); }
 }
 
 async function loadDone() {
@@ -386,12 +398,12 @@ async function loadDone() {
   try {
     const tasks = await apiFetch('/tasks/done');
     document.getElementById('done-count').textContent = tasks.length;
-    if (!tasks.length) { el.innerHTML = emptyState('◉','Nada por aquí todavía','Las tareas completadas aparecerán acá'); return; }
+    if (!tasks.length) { el.innerHTML = emptyState('◉','Nothing here yet','Completed tasks will show up here'); return; }
     el.innerHTML = '';
     const list = document.createElement('div'); list.className = 'task-list';
     tasks.forEach(t => list.appendChild(buildTaskCard(t, true)));
     el.appendChild(list);
-  } catch(e) { el.innerHTML = emptyState('⚠','Error al cargar', e.message); }
+  } catch(e) { el.innerHTML = emptyState('⚠','Failed to load', e.message); }
 }
 
 function buildTaskCard(task, isDone = false) {
@@ -420,13 +432,13 @@ async function toggleTask(id, card) {
     const task = await apiFetch(`/tasks/${id}/toggle`, { method:'PATCH' });
     if (task.status === 'done') {
       card.classList.add('done');
-      showToast('Tarea completada ✓');
+      showToast('Task completed ✓');
       setTimeout(() => {
         card.style.cssText += 'opacity:0;transform:translateX(8px);transition:all 300ms ease';
         setTimeout(() => { card.remove(); loadTasks(); }, 300);
       }, 600);
     } else { card.classList.remove('done'); loadDone(); }
-  } catch { showToast('Error al actualizar'); }
+  } catch { showToast('Failed to update'); }
 }
 
 // ── Subjects ─────────────────────────────────────────────────
@@ -437,7 +449,7 @@ async function loadSubjects() {
     subjects = await apiFetch('/subjects');
     document.getElementById('subjects-count').textContent = subjects.length;
     populateSubjectSelect();
-    if (!subjects.length) { el.innerHTML = emptyState('◇','Sin materias','Agrega tus materias del semestre'); return; }
+    if (!subjects.length) { el.innerHTML = emptyState('◇','No subjects yet','Add your subjects for the semester'); return; }
     el.innerHTML = '';
     const list = document.createElement('div'); list.className = 'subject-list';
     subjects.forEach(s => {
@@ -455,25 +467,25 @@ async function loadSubjects() {
       list.appendChild(card);
     });
     el.appendChild(list);
-  } catch(e) { el.innerHTML = emptyState('⚠','Error al cargar', e.message); }
+  } catch(e) { el.innerHTML = emptyState('⚠','Failed to load', e.message); }
 }
 
 function populateSubjectSelect() {
   const sel = document.getElementById('taskSubject');
   const cur = sel.value;
-  sel.innerHTML = '<option value="">Sin materia</option>';
+  sel.innerHTML = '<option value="">No subject</option>';
   subjects.forEach(s => { const o = document.createElement('option'); o.value = s.id; o.textContent = s.name; sel.appendChild(o); });
   sel.value = cur;
 }
 
 async function deleteSubject(id, card) {
-  if (!confirm('¿Eliminar esta materia?')) return;
+  if (!confirm('Delete this subject?')) return;
   try {
     await apiFetch(`/subjects/${id}`, { method:'DELETE' });
     card.style.cssText += 'opacity:0;transition:opacity 200ms ease';
     setTimeout(() => { card.remove(); loadSubjects(); }, 200);
-    showToast('Materia eliminada');
-  } catch { showToast('Error al eliminar'); }
+    showToast('Subject deleted');
+  } catch { showToast('Failed to delete'); }
 }
 
 // ── Modals ───────────────────────────────────────────────────
@@ -495,8 +507,8 @@ function openTaskModal(task = null) {
   document.getElementById('taskTitle').value        = task ? task.title : '';
   document.getElementById('taskDesc').value         = task ? (task.description || '') : '';
   document.getElementById('taskDeadline').value     = task ? task.deadline : '';
-  document.getElementById('taskModalTitle').textContent  = task ? 'Editar tarea' : 'Nueva tarea';
-  document.getElementById('taskSubmitBtn').textContent   = task ? 'Guardar cambios' : 'Crear tarea';
+  document.getElementById('taskModalTitle').textContent  = task ? 'Edit task' : 'New task';
+  document.getElementById('taskSubmitBtn').textContent   = task ? 'Save changes' : 'Create task';
   document.getElementById('deleteTaskBtn').style.display = task ? 'inline-flex' : 'none';
   populateSubjectSelect();
   document.getElementById('taskSubject').value = task ? (task.subject_id || '') : '';
@@ -506,9 +518,9 @@ function openTaskModal(task = null) {
 document.getElementById('cancelTaskBtn').onclick    = () => closeModal('taskModal');
 document.getElementById('deleteTaskBtn').onclick    = async () => {
   const id = document.getElementById('editTaskId').value;
-  if (!id || !confirm('¿Eliminar esta tarea?')) return;
-  try { await apiFetch(`/tasks/${id}`, {method:'DELETE'}); closeModal('taskModal'); showToast('Tarea eliminada'); loadTasks(); }
-  catch { showToast('Error al eliminar'); }
+  if (!id || !confirm('Delete this task?')) return;
+  try { await apiFetch(`/tasks/${id}`, {method:'DELETE'}); closeModal('taskModal'); showToast('Task deleted'); loadTasks(); }
+  catch { showToast('Failed to delete'); }
 };
 
 document.getElementById('taskForm').onsubmit = async e => {
@@ -523,8 +535,8 @@ document.getElementById('taskForm').onsubmit = async e => {
     status:      'pending',
   };
   try {
-    if (id) { await apiFetch(`/tasks/${id}`, {method:'PUT', body:JSON.stringify(payload)}); showToast('Tarea actualizada'); }
-    else    { await apiFetch('/tasks',        {method:'POST',body:JSON.stringify(payload)}); showToast('Tarea creada'); }
+    if (id) { await apiFetch(`/tasks/${id}`, {method:'PUT', body:JSON.stringify(payload)}); showToast('Task updated'); }
+    else    { await apiFetch('/tasks',        {method:'POST',body:JSON.stringify(payload)}); showToast('Task created'); }
     closeModal('taskModal'); loadTasks();
   } catch(err) { showToast(err.message); }
 };
@@ -534,8 +546,8 @@ function openSubjectModal(subject = null) {
   document.getElementById('editSubjectId').value        = subject ? subject.id : '';
   document.getElementById('subjectName').value          = subject ? subject.name : '';
   document.getElementById('subjectColor').value         = subject ? subject.color : COLORS[0];
-  document.getElementById('subjectModalTitle').textContent = subject ? 'Editar materia' : 'Nueva materia';
-  document.getElementById('subjectSubmitBtn').textContent  = subject ? 'Guardar cambios' : 'Crear materia';
+  document.getElementById('subjectModalTitle').textContent = subject ? 'Edit subject' : 'New subject';
+  document.getElementById('subjectSubmitBtn').textContent  = subject ? 'Save changes' : 'Create subject';
   renderSwatches(subject ? subject.color : COLORS[0]);
   openModal('subjectModal');
 }
@@ -561,16 +573,16 @@ document.getElementById('subjectForm').onsubmit = async e => {
   const id = document.getElementById('editSubjectId').value;
   const payload = { name: document.getElementById('subjectName').value.trim(), color: document.getElementById('subjectColor').value };
   try {
-    if (id) { await apiFetch(`/subjects/${id}`, {method:'PUT', body:JSON.stringify(payload)}); showToast('Materia actualizada'); }
-    else    { await apiFetch('/subjects',        {method:'POST',body:JSON.stringify(payload)}); showToast('Materia creada'); }
+    if (id) { await apiFetch(`/subjects/${id}`, {method:'PUT', body:JSON.stringify(payload)}); showToast('Subject updated'); }
+    else    { await apiFetch('/subjects',        {method:'POST',body:JSON.stringify(payload)}); showToast('Subject created'); }
     closeModal('subjectModal'); loadSubjects();
   } catch(err) { showToast(err.message); }
 };
 
-document.getElementById('demoBanner').style.display = 'block';
+document.getElementById('demoBanner').style.display = 'flex';
 
 // ── Helpers ──────────────────────────────────────────────────
-function loading() { return '<div class="loading"><div class="spinner"></div>Cargando...</div>'; }
+function loading() { return '<div class="loading"><div class="spinner"></div>Loading...</div>'; }
 function emptyState(icon, title, sub = '') {
   return `<div class="empty-state"><div class="empty-icon">${icon}</div><div class="empty-title">${title}</div>${sub ? `<div class="empty-sub">${sub}</div>` : ''}</div>`;
 }
