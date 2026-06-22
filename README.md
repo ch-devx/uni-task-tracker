@@ -21,6 +21,10 @@ Full-stack portfolio project — a task manager built with vanilla JS on the fro
 - Completed tasks view
 - Responsive design — optimized for mobile
 
+## Testing
+
+The API layer includes automated integration tests built with [Vitest](https://vitest.dev) and `@cloudflare/vitest-pool-workers`. See the [API repo](https://github.com/ch-devx/uni-task-tracker-api) for details.
+
 ## Security model
 
 The public demo is **read-only by design**. The frontend never holds any secrets — write operations are gated server-side by a Bearer token stored as a Cloudflare Worker secret. See the [API repo](https://github.com/ch-devx/uni-task-tracker-api) for full details.
