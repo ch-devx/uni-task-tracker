@@ -1,6 +1,6 @@
 # uni-task-tracker
 
-Personal web app for managing university tasks, sorted by due date.
+Full-stack portfolio project — a task manager built with vanilla JS on the frontend and a Cloudflare Worker + Neon PostgreSQL API on the backend.
 
 **Live demo:** https://ch-devx.github.io/uni-task-tracker/
 
