@@ -2,22 +2,28 @@
 
 Personal web app for managing university tasks, sorted by due date.
 
-**Live:** https://ch-devx.github.io/uni-task-tracker/
+**Live demo:** https://ch-devx.github.io/uni-task-tracker/
+
+![App screenshot](https://github.com/user-attachments/assets/d27278aa-8f41-41dc-bd50-4afaa6dea37c)
 
 ## Stack
 
 - HTML + CSS + JavaScript vanilla — no frameworks
-- API: Cloudflare Worker ([uni-task-tracker-api](https://github.com/ch-devx/uni-task-tracker-api))
-- Database: Neon PostgreSQL
+- API: Cloudflare Worker ([uni-tasks-worker](https://github.com/ch-devx/uni-task-tracker-api))
+- Database: Neon serverless PostgreSQL
 
 ## Features
 
 - Create, edit, and delete tasks with title, description, subject, and deadline
 - Automatic sorting by due date
-- Visual urgency indicator by color (overdue, upcoming, ok)
+- Visual urgency indicators: overdue (red), upcoming (yellow), on track (green)
 - Subject management with custom colors
 - Completed tasks view
 - Responsive design — optimized for mobile
+
+## Security model
+
+The public demo is **read-only by design**. The frontend never holds any secrets — write operations are gated server-side by a Bearer token stored as a Cloudflare Worker secret. See the [API repo](https://github.com/ch-devx/uni-task-tracker-api) for full details.
 
 ## Structure
 uni-task-tracker/
