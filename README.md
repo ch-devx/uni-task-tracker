@@ -34,6 +34,16 @@ uni-task-tracker/
 
 └── index.html    # Full app in a single file
 
+## Local development
+
+Open `index.html` directly in a browser, or serve it with any static server:
+
+```bash
+npx serve .
+```
+
+The `API` constant in the script tag points to the live Worker. To test against a local backend, update it to `http://localhost:8787`.
+
 ## Configuration
 
 The Worker URL is defined in the `API` constant inside the `<script>` tag in `index.html`:
